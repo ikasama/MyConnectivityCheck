@@ -3,6 +3,7 @@ package com.badlogic.masaki.myconnectivitycheck.network;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.annotation.NonNull;
 
 /**
  * Utility for monitoring network state.
@@ -18,30 +19,31 @@ public enum NetworkDetector {
     public static final String TAG = NetworkDetector.class.getSimpleName();
 
     /**
+     * gets the currently active network info
      * @param context Context
      * @return  details about the currently active default data network.
      */
-    public final NetworkInfo getActiveNetworkInfo(Context context) {
-        ConnectivityManager mgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+    public final NetworkInfo getActiveNetworkInfo(@NonNull Context context) {
+        final ConnectivityManager mgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         return mgr.getActiveNetworkInfo();
     }
 
     /**
-     *
+     * checks if the device is online
      * @param context Context
      * @return true if the device is online
      */
-    public final boolean isOnline(Context context) {
+    public final boolean isOnline(@NonNull Context context) {
         final NetworkInfo info =  NetworkDetector.INSTANCE.getActiveNetworkInfo(context);
         return (info != null) && (info.isConnected());
     }
 
     /**
-     *
+     * checks if the device is connected with Wi-Fi
      * @param context Context
      * @return true if the device is wifi-connected
      */
-    public final boolean isWifiConnected(Context context) {
+    public final boolean isWifiConnected(@NonNull Context context) {
         final NetworkInfo info = NetworkDetector.INSTANCE.getActiveNetworkInfo(context);
         if(info != null) {
             return (info.isConnected()) && info.getType() == ConnectivityManager.TYPE_WIFI;
@@ -50,11 +52,11 @@ public enum NetworkDetector {
     }
 
     /**
-     *
+     * checks if the device is connected with MN
      * @param context Context
      * @return true if the device is mobile-connected
      */
-    public final boolean isMobileConnected(Context context) {
+    public final boolean isMobileConnected(@NonNull Context context) {
         final NetworkInfo info = NetworkDetector.INSTANCE.getActiveNetworkInfo(context);
         if(info != null) {
             return (info.isConnected()) && info.getType() == ConnectivityManager.TYPE_MOBILE;
@@ -63,13 +65,16 @@ public enum NetworkDetector {
     }
 
     /**
-     *
+     * gets the device's network state currently active
      * @param context Context
      * @return currently appropriate network state
      */
-    public final NetworkState getNetworkState(Context context) {
+    public final NetworkState getNetworkState(@NonNull Context context) {
         final NetworkInfo info = NetworkDetector.INSTANCE.getActiveNetworkInfo(context);
 
+        /*
+         *if info is null, that means the device is offline
+         */
         if(info == null) {
             return NetworkState.OFFLINE;
         }
