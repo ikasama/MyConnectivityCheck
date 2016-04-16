@@ -1,7 +1,6 @@
 package com.badlogic.masaki.myconnectivitycheck.network;
 
 import android.content.Context;
-import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
@@ -11,38 +10,65 @@ import android.net.NetworkInfo;
  */
 public enum NetworkDetector {
 
+    /**
+    uses enum singleton
+     */
     INSTANCE;
 
     public static final String TAG = NetworkDetector.class.getSimpleName();
 
+    /**
+     * @param context Context
+     * @return  details about the currently active default data network.
+     */
     public final NetworkInfo getActiveNetworkInfo(Context context) {
         ConnectivityManager mgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         return mgr.getActiveNetworkInfo();
     }
 
+    /**
+     *
+     * @param context Context
+     * @return true if the device is online
+     */
     public final boolean isOnline(Context context) {
-        NetworkInfo info =  NetworkDetector.INSTANCE.getActiveNetworkInfo(context);
+        final NetworkInfo info =  NetworkDetector.INSTANCE.getActiveNetworkInfo(context);
         return (info != null) && (info.isConnected());
     }
 
+    /**
+     *
+     * @param context Context
+     * @return true if the device is wifi-connected
+     */
     public final boolean isWifiConnected(Context context) {
-        NetworkInfo info = NetworkDetector.INSTANCE.getActiveNetworkInfo(context);
+        final NetworkInfo info = NetworkDetector.INSTANCE.getActiveNetworkInfo(context);
         if(info != null) {
             return (info.isConnected()) && info.getType() == ConnectivityManager.TYPE_WIFI;
         }
         return false;
     }
 
+    /**
+     *
+     * @param context Context
+     * @return true if the device is mobile-connected
+     */
     public final boolean isMobileConnected(Context context) {
-        NetworkInfo info = NetworkDetector.INSTANCE.getActiveNetworkInfo(context);
+        final NetworkInfo info = NetworkDetector.INSTANCE.getActiveNetworkInfo(context);
         if(info != null) {
             return (info.isConnected()) && info.getType() == ConnectivityManager.TYPE_MOBILE;
         }
         return false;
     }
 
+    /**
+     *
+     * @param context Context
+     * @return currently appropriate network state
+     */
     public final NetworkState getNetworkState(Context context) {
-        NetworkInfo info = NetworkDetector.INSTANCE.getActiveNetworkInfo(context);
+        final NetworkInfo info = NetworkDetector.INSTANCE.getActiveNetworkInfo(context);
 
         if(info == null) {
             return NetworkState.OFFLINE;

@@ -3,12 +3,10 @@ package com.badlogic.masaki.myconnectivitycheck.network;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.util.Log;
 
 /**
+ * this class
  * Created by shojimasaki on 2016/04/09.
  */
 public class NetworkReceiver extends BroadcastReceiver{
@@ -23,7 +21,7 @@ public class NetworkReceiver extends BroadcastReceiver{
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        NetworkState networkState = NetworkDetector.INSTANCE.getNetworkState(context);
+        final NetworkState networkState = NetworkDetector.INSTANCE.getNetworkState(context);
 
         /*
         if mListener is null, the callback methods don't be called.

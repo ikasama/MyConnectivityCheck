@@ -1,13 +1,11 @@
 package com.badlogic.masaki.myconnectivitycheck;
 
-import android.app.usage.NetworkStatsManager;
 import android.content.BroadcastReceiver;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -15,7 +13,6 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.badlogic.masaki.myconnectivitycheck.network.NetworkDetector;
 import com.badlogic.masaki.myconnectivitycheck.network.NetworkReceiver;
 import com.badlogic.masaki.myconnectivitycheck.network.OnNetworkStateChangedListener;
 
@@ -47,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements OnNetworkStateCha
             mReceiver = new NetworkReceiver(this);
         }
         Log.d(NetworkReceiver.TAG, "NetworkReceiver has been registered");
-//        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         registerReceiver(mReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
@@ -55,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements OnNetworkStateCha
     protected void onPause() {
         super.onPause();
         if(mReceiver != null) {
-//            LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
             unregisterReceiver(mReceiver);
             Log.d(NetworkReceiver.TAG, "NetworkReceiver has been unregistered");
         }
